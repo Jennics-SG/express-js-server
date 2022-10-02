@@ -19,16 +19,41 @@ const server = () => {
     this.app.get('/', (req, res) => {
         console.log(`User connected to root`);
 
+        let text = ""
+
+        if(isMobile(req.headers['user-agent']))
+            text = "Mobile";
+        else
+            text = "Desktop";
+
         // Status sends a HTML status code
         // Render renders HTML and can also
         // pass an object to access in the ejs code
         res.status(200)
-            .render('home', {Text: "Hello World"});
+            .render('home', {device: text});
     });
 
     this.app.listen(this.port, () => {
         console.log(`Server Listening on port ${this.port}`);
     });
+}
+
+// Function that checks user-agent HTTP header to see if the user
+// Is connecting on mobile
+const isMobile = (string) => {
+    const deviceHeaders =  ["Android",
+                            "iPhone",
+                            "iPad",
+                            "iPod",
+                            "BlackBerry",
+                            "Windows Phone"]
+
+    for(const str of deviceHeaders){
+        if(string.includes(str)){
+            return true;
+            break;
+        }
+    }
 }
 
 init();
