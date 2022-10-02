@@ -5,7 +5,11 @@ const init = () => {
     this.app = express()
     this.port = 3000;
 
-    server.bind(this)()
+    // Tells the server what view engine to
+    // use when rendering HTML
+    this.app.set('view engine', 'ejs');
+
+    server.bind(this)();
 }
 
 // Server runtime function
@@ -14,7 +18,12 @@ const server = () => {
     // takes request, response
     this.app.get('/', (req, res) => {
         console.log(`User connected to root`);
-        res.send('Hello World!')
+
+        // Status sends a HTML status code
+        // Render renders HTML and can also
+        // pass an object to access in the ejs code
+        res.status(200)
+            .render('home', {Text: "Hello World"});
     });
 
     this.app.listen(this.port, () => {
