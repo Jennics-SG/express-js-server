@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 
 // Initialise server variables
 const init = () => {
@@ -24,6 +25,11 @@ const server = () => {
         // pass an object to access in the ejs code
         res.status(200)
             .render('home', {Text: "Hello World"});
+    });
+
+    this.app.get('/main.js', (req, res) => {
+        res.sendFile(path.join(__dirname, 'dist/main.js'));
+        
     });
 
     this.app.listen(this.port, () => {
